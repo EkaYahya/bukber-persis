@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Undangan Buka Bersama — Angkatan 27</title>
+    <meta name="description" content="Undangan Buka Bersama Angkatan 27 — Mari bersilaturahmi di bulan Ramadhan 1447H">
+    <meta name="theme-color" content="#0A2E12">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- ===== BACKGROUND EFFECTS ===== -->
+    <div class="bg-canvas"></div>
+    <div class="bg-stars" id="bgStars"></div>
+    <div class="bg-geometric"></div>
+    <div class="glow-orb glow-orb--1"></div>
+    <div class="glow-orb glow-orb--2"></div>
+    <div class="glow-orb glow-orb--3"></div>
+    <div class="lanterns" id="lanterns"></div>
+
+    <!-- ===== MAIN APP ===== -->
+    <div class="app">
+
+        <!-- ====== HERO ====== -->
+        <section class="hero">
+            <p class="hero__bismillah">بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ</p>
+
+            <div class="hero__ornament">
+                <div class="line"></div>
+                <div class="dot"></div>
+                <div class="line"></div>
+            </div>
+
+            <span class="hero__badge">☪ Ramadhan 1447 H</span>
+
+            <div class="hero__crescent">☪</div>
+
+            <h1 class="hero__title">Buka Bersama</h1>
+            <h2 class="hero__subtitle">Angkatan 27</h2>
+
+            <div class="hero__ornament" style="animation-delay: 1.2s;">
+                <div class="line"></div>
+                <div class="dot"></div>
+                <div class="line"></div>
+            </div>
+
+            <p class="hero__desc">
+                Mari bersilaturahmi dan mempererat tali persaudaraan di bulan penuh berkah 🌙
+            </p>
+
+            <div class="hero__scroll-hint">
+                <div class="hero__scroll-arrow"></div>
+                <span>Scroll</span>
+            </div>
+        </section>
+
+        <!-- ====== COUNTDOWN ====== -->
+        <div class="countdown reveal">
+            <div class="countdown__item">
+                <div class="countdown__num" id="days">00</div>
+                <div class="countdown__label">Hari</div>
+            </div>
+            <div class="countdown__item">
+                <div class="countdown__num" id="hours">00</div>
+                <div class="countdown__label">Jam</div>
+            </div>
+            <div class="countdown__item">
+                <div class="countdown__num" id="minutes">00</div>
+                <div class="countdown__label">Menit</div>
+            </div>
+            <div class="countdown__item">
+                <div class="countdown__num" id="seconds">00</div>
+                <div class="countdown__label">Detik</div>
+            </div>
+        </div>
+
+        <!-- ====== EVENT DETAILS ====== -->
+        <section class="section">
+            <div class="card reveal">
+                <div class="card__header">
+                    <div class="card__icon">📅</div>
+                    <h3 class="card__title">Detail Acara</h3>
+                </div>
+                <div class="card__grid">
+                    <span class="card__label">Hari</span>
+                    <span class="card__value">Rabu, 18 Maret 2026</span>
+
+                    <span class="card__label">Waktu</span>
+                    <span class="card__value">17:00 — 19:30 WIB</span>
+
+                    <span class="card__label">Lokasi</span>
+                    <span class="card__value">Odistry</span>
+
+                    <span class="card__label">Dress</span>
+                    <span class="card__value">Bebas Rapi</span>
+                </div>
+
+                <a href="https://maps.app.goo.gl/fUptXNFFCHwGdrAE8" target="_blank" rel="noopener" class="map-link">
+                    <span class="map-link__icon">📍</span>
+                    <span>Lihat Lokasi di Google Maps</span>
+                    <span class="map-link__arrow">→</span>
+                </a>
+            </div>
+
+            <div class="card reveal reveal-delay-1">
+                <div class="card__header">
+                    <div class="card__icon">🎯</div>
+                    <h3 class="card__title">Rundown Acara</h3>
+                </div>
+                <div class="card__grid">
+                    <span class="card__label">17:00</span>
+                    <span class="card__value">Registrasi & Kumpul</span>
+
+                    <span class="card__label">17:30</span>
+                    <span class="card__value">Sambutan & Sharing</span>
+
+                    <span class="card__label">18:05</span>
+                    <span class="card__value">Buka Puasa Bersama 🍽️</span>
+
+                    <span class="card__label">18:30</span>
+                    <span class="card__value">Sholat Maghrib Berjamaah</span>
+
+                    <span class="card__label">19:00</span>
+                    <span class="card__value">Foto Bersama & Free Time</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- ====== PAYMENT INFO (QR, Download) ====== -->
+        <section class="section">
+            <div class="section__header reveal">
+                <span class="section__icon">💰</span>
+                <h2 class="section__title">Pembayaran Iuran</h2>
+                <p class="section__subtitle">Bayar dulu, lalu upload bukti di form bawah</p>
+            </div>
+
+            <div class="card payment-card reveal reveal-delay-1">
+                <p class="payment__amount">Rp 75.000</p>
+                <p class="payment__per">per orang</p>
+
+                <div class="qr-frame">
+                    <img src="qris.png" alt="QR Code Pembayaran" id="qrImage">
+                </div>
+
+                <p class="payment__hint">Scan dengan e-wallet atau mobile banking</p>
+
+                <a href="qris.png" download="QRIS_BukaBersama_Angkatan27.png" class="btn-download" id="btnDownloadQR">
+                    <span>📥</span>
+                    <span>Download QR Code</span>
+                </a>
+
+                <div class="payment__bank">
+                    <p>Atau transfer ke rekening:</p>
+                    <p class="highlight">Bank BCA</p>
+                    <div class="copy-row">
+                        <span class="copy-number" id="rekeningNum">7060389297</span>
+                        <button type="button" class="btn-copy" onclick="copyRekening()" id="btnCopy">
+                            <span class="btn-copy__text">📋 Copy</span>
+                        </button>
+                    </div>
+                    <p class="highlight">a.n. Haffiz Hidayatullah</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ====== UNIFIED RSVP + PAYMENT FORM ====== -->
+        <section class="section">
+            <div class="section__header reveal">
+                <span class="section__icon">📝</span>
+                <h2 class="section__title">Konfirmasi & Pembayaran</h2>
+                <p class="section__subtitle">Isi data & upload bukti bayar sekaligus</p>
+            </div>
+
+            <div class="form-card reveal reveal-delay-1">
+                <form id="mainForm" autocomplete="off">
+
+                    <!-- Step indicator -->
+                    <div class="form-steps">
+                        <div class="form-step active" data-step="1">
+                            <div class="form-step__num">1</div>
+                            <div class="form-step__text">Data Diri</div>
+                        </div>
+                        <div class="form-step__line"></div>
+                        <div class="form-step" data-step="2">
+                            <div class="form-step__num">2</div>
+                            <div class="form-step__text">Bukti Bayar</div>
+                        </div>
+                    </div>
+
+                    <!-- PART 1: Personal Info -->
+                    <div class="form-group">
+                        <label class="form-group__label">
+                            Nama Lengkap <span class="req">*</span>
+                        </label>
+                        <input type="text" name="nama" class="form-input" placeholder="Masukkan nama lengkap" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-group__label">
+                            Konfirmasi Kehadiran <span class="req">*</span>
+                        </label>
+                        <div class="choice-grid choice-grid--2">
+                            <div class="choice-card">
+                                <input type="radio" name="kehadiran" id="hadir" value="Hadir" required>
+                                <label for="hadir" class="choice-card__label">
+                                    <span class="choice-card__emoji">✅</span>
+                                    <span class="choice-card__text">Hadir</span>
+                                </label>
+                            </div>
+                            <div class="choice-card">
+                                <input type="radio" name="kehadiran" id="tidakHadir" value="Tidak Hadir">
+                                <label for="tidakHadir" class="choice-card__label">
+                                    <span class="choice-card__emoji">😔</span>
+                                    <span class="choice-card__text">Tidak Hadir</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group" id="foodGroup">
+                        <label class="form-group__label">
+                            Pilihan Makanan <span class="req">*</span>
+                        </label>
+                        <div class="food-grid">
+                            <div class="food-card">
+                                <input type="radio" name="makanan" id="cabeIjo" value="Nasi Ayam Cabe Ijo">
+                                <label for="cabeIjo" class="food-card__label">
+                                    <span class="food-card__check">✓</span>
+                                    <span class="food-card__emoji">🌶️</span>
+                                    <span class="food-card__name">Nasi Ayam<br>Cabe Ijo</span>
+                                </label>
+                            </div>
+                            <div class="food-card">
+                                <input type="radio" name="makanan" id="kari" value="Nasi Ayam Kari">
+                                <label for="kari" class="food-card__label">
+                                    <span class="food-card__check">✓</span>
+                                    <span class="food-card__emoji">🍛</span>
+                                    <span class="food-card__name">Nasi Ayam<br>Kari</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-group__label">Pesan / Catatan</label>
+                        <textarea name="pesan" class="form-input" placeholder="Tulis pesan atau catatan tambahan..."
+                            rows="3"></textarea>
+                    </div>
+
+                    <!-- Divider -->
+                    <div class="form-divider">
+                        <div class="form-divider__line"></div>
+                        <span class="form-divider__text">Upload Bukti Bayar</span>
+                        <div class="form-divider__line"></div>
+                    </div>
+
+                    <!-- PART 2: Payment Proof -->
+                    <div id="uploadSection">
+                        <div class="upload-notice">
+                            <span>⚠️</span>
+                            <p>Upload bukti pembayaran <strong>wajib</strong> untuk konfirmasi kehadiran</p>
+                        </div>
+
+                        <div class="upload-zone" id="uploadZone">
+                            <input type="file" id="fileInput" accept="image/*" hidden>
+                            <span class="upload-zone__icon">📷</span>
+                            <p class="upload-zone__text">Klik atau drag & drop bukti bayar</p>
+                            <p class="upload-zone__hint">JPG, PNG, JPEG — Maks. 5MB</p>
+                            <div class="upload-preview" id="uploadPreview">
+                                <img id="previewImg" src="" alt="Preview">
+                            </div>
+                            <p class="upload-filename" id="fileName"></p>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn-primary btn-primary--green" id="btnSubmit">
+                        <span class="btn__text">🚀 Kirim Konfirmasi & Bukti Bayar</span>
+                        <div class="spinner"></div>
+                    </button>
+                </form>
+            </div>
+        </section>
+
+        <!-- ====== FOOTER ====== -->
+        <footer class="footer reveal">
+            <p class="footer__dua">بَارَكَ اللهُ فِيكُمْ</p>
+            <div class="hero__ornament">
+                <div class="line"></div>
+                <div class="dot"></div>
+                <div class="line"></div>
+            </div>
+            <p class="footer__text">
+                Dibuat dengan <span class="footer__heart">❤️</span> oleh Panitia Angkatan 27<br>
+                © 2026 Buka Bersama Angkatan 27
+            </p>
+        </footer>
+
+    </div>
+
+    <!-- ===== SUCCESS OVERLAY ===== -->
+    <div class="overlay" id="overlay">
+        <div class="overlay__content">
+            <span class="overlay__icon" id="overlayIcon">🎉</span>
+            <h2 class="overlay__title" id="overlayTitle">Berhasil!</h2>
+            <p class="overlay__msg" id="overlayMsg">Konfirmasi kamu sudah tercatat.</p>
+            <button class="overlay__btn" onclick="closeOverlay()">Tutup</button>
+        </div>
+    </div>
+
+    <!-- ===== TOAST ===== -->
+    <div class="toast-wrap" id="toastWrap"></div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
