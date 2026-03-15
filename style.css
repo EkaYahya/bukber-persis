@@ -786,6 +786,10 @@ textarea.form-input {
     gap: 12px;
 }
 
+.food-grid--3 {
+    grid-template-columns: repeat(3, 1fr);
+}
+
 .food-card {
     position: relative;
 }
