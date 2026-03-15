@@ -94,6 +94,7 @@ function initForm() {
     const form = document.getElementById('mainForm');
     const btn = document.getElementById('btnSubmit');
     const foodGroup = document.getElementById('foodGroup');
+    const drinkGroup = document.getElementById('drinkGroup');
     const uploadSection = document.getElementById('uploadSection');
     const radios = document.querySelectorAll('input[name="kehadiran"]');
     const steps = document.querySelectorAll('.form-step');
@@ -104,13 +105,18 @@ function initForm() {
             if (radio.value === 'Tidak Hadir') {
                 foodGroup.style.opacity = '0.3';
                 foodGroup.style.pointerEvents = 'none';
+                drinkGroup.style.opacity = '0.3';
+                drinkGroup.style.pointerEvents = 'none';
                 uploadSection.classList.add('hidden');
                 document.querySelectorAll('input[name="makanan"]').forEach(r => r.checked = false);
+                document.querySelectorAll('input[name="minuman"]').forEach(r => r.checked = false);
                 // Still allow submit without upload for "Tidak Hadir"
                 steps[1].classList.remove('active');
             } else {
                 foodGroup.style.opacity = '1';
                 foodGroup.style.pointerEvents = 'auto';
+                drinkGroup.style.opacity = '1';
+                drinkGroup.style.pointerEvents = 'auto';
                 uploadSection.classList.remove('hidden');
                 steps[1].classList.add('active');
             }
@@ -125,6 +131,7 @@ function initForm() {
         const nama = fd.get('nama')?.trim();
         const kehadiran = fd.get('kehadiran');
         const makanan = fd.get('makanan');
+        const minuman = fd.get('minuman');
         const pesan = fd.get('pesan')?.trim() || '-';
 
         // Validate
@@ -133,6 +140,7 @@ function initForm() {
 
         if (kehadiran === 'Hadir') {
             if (!makanan) return toast('Mohon pilih makanan', 'error');
+            if (!minuman) return toast('Mohon pilih minuman', 'error');
             if (!selectedFile) return toast('Upload bukti pembayaran wajib untuk konfirmasi kehadiran', 'error');
         }
 
@@ -147,6 +155,7 @@ function initForm() {
                 nama,
                 kehadiran,
                 makanan: kehadiran === 'Hadir' ? makanan : '-',
+                minuman: kehadiran === 'Hadir' ? minuman : '-',
                 pesan
             };
 
@@ -182,7 +191,7 @@ function initForm() {
                 '🎉',
                 'Terima Kasih!',
                 kehadiran === 'Hadir'
-                    ? `Hai ${nama}, konfirmasi & bukti bayar kamu sudah tercatat! Kamu memilih ${makanan}. Sampai jumpa di acara! 🤲`
+                    ? `Hai ${nama}, konfirmasi & bukti bayar kamu sudah tercatat! Kamu memilih ${makanan} dan ${minuman}. Sampai jumpa di acara! 🤲`
                     : `Hai ${nama}, sayang sekali kamu tidak bisa hadir. Semoga bisa di lain waktu! 🤲`
             );
 
@@ -191,6 +200,8 @@ function initForm() {
             resetUpload();
             foodGroup.style.opacity = '1';
             foodGroup.style.pointerEvents = 'auto';
+            drinkGroup.style.opacity = '1';
+            drinkGroup.style.pointerEvents = 'auto';
             uploadSection.classList.remove('hidden');
             steps[1].classList.remove('active');
 
@@ -319,7 +330,7 @@ function copyRekening() {
 /*
  * Paste di Apps Script Editor (Extensions > Apps Script):
  *
- * Sheet "RSVP" header: Timestamp | Nama | Kehadiran | Makanan | Pesan
+ * Sheet "RSVP" header: Timestamp | Nama | Kehadiran | Makanan | Minuman | Pesan
  * Sheet "Pembayaran" header: Timestamp | Nama | File URL | Status
  *
 
@@ -337,7 +348,7 @@ function doPost(e) {
       .setMimeType(ContentService.MimeType.JSON);
   } else {
     var sheet = ss.getSheetByName('RSVP');
-    sheet.appendRow([data.timestamp, data.nama, data.kehadiran, data.makanan, data.pesan]);
+    sheet.appendRow([data.timestamp, data.nama, data.kehadiran, data.makanan, data.minuman, data.pesan]);
     return ContentService.createTextOutput(JSON.stringify({result:'success'}))
       .setMimeType(ContentService.MimeType.JSON);
   }
