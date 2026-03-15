@@ -247,7 +247,14 @@ function resetUpload() {
 function toBase64(file) {
     return new Promise((resolve, reject) => {
         const r = new FileReader();
-        r.onload = () => resolve(r.result.split(',')[1]);
+        r.onload = () => {
+            // e.target.result or r.result contains the data URL
+            // Format is "data:image/png;base64,iVBORw0KGgo..."
+            // We only want the part after the comma
+            const result = r.result;
+            const base64String = result.split(',')[1];
+            resolve(base64String);
+        };
         r.onerror = reject;
         r.readAsDataURL(file);
     });
