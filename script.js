@@ -4,7 +4,7 @@
 // ============================================
 
 const CONFIG = {
-    GOOGLE_SCRIPT_URL: 'https://script.google.com/macros/s/AKfycbzzu1FmQPChy4muLzy9skz5C43oNQMlFmgp8mIocUrZhC2vrAn-s2flXr-0BU9UZlyv/exec',
+    GOOGLE_SCRIPT_URL: 'https://script.google.com/macros/s/AKfycbz1QCJJlSdjKllPVYHQma8c5_Rmie9jY-UyBeipnYPGhiokiEL5yjSFP7KudUe3CHMp/exec',
     DRIVE_FOLDER_ID: '1-nMHqGY1e7DgE7tLBrRySPjQL51nHThW',
     EVENT_DATE: '2026-03-18T17:00:00+07:00',
     MAX_FILE_SIZE: 5 * 1024 * 1024
