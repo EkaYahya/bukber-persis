@@ -4,7 +4,7 @@
 // ============================================
 
 const CONFIG = {
-    GOOGLE_SCRIPT_URL: 'https://script.google.com/macros/s/AKfycbwpAWR57Mc4Hyn1-BHhXourRdEtPGBw419M6t3W4jvXpZbNp8UJF48An29Omb8WdQkK/exec',
+    GOOGLE_SCRIPT_URL: 'https://script.google.com/macros/s/AKfycbwm21JGKGu4mpWF-OlyfJJ4s69M3AJ-FmVRImfA65FJMDgFCNz5k_cFrxAlnZ0HSGgK/exec',
     DRIVE_FOLDER_ID: '1-nMHqGY1e7DgE7tLBrRySPjQL51nHThW',
     EVENT_DATE: '2026-03-18T17:00:00+07:00',
     MAX_FILE_SIZE: 5 * 1024 * 1024
@@ -140,36 +140,42 @@ function initForm() {
         btn.disabled = true;
 
         try {
-            // Siapkan data file jika ada
-            let base64 = '';
-            let mimeType = '';
-            let fileName = '';
-
-            if (kehadiran === 'Hadir' && selectedFile) {
-                base64 = await toBase64(selectedFile);
-                mimeType = selectedFile.type;
-                fileName = `bukti_${nama.replace(/\s+/g, '_')}_${Date.now()}.${selectedFile.name.split('.').pop()}`;
-            }
-
-            // Gabungkan semua data menjadi SATU payload
-            const payload = {
-                action: 'submit_all',
+            // 1. Submit RSVP data
+            const rsvpPayload = {
+                action: 'rsvp',
                 timestamp: new Date().toLocaleString('id-ID'),
                 nama,
                 kehadiran,
                 makanan: kehadiran === 'Hadir' ? makanan : '-',
-                pesan,
-                fileData: base64,
-                mimeType,
-                fileName,
-                folderId: CONFIG.DRIVE_FOLDER_ID
+                pesan
             };
 
             await fetch(CONFIG.GOOGLE_SCRIPT_URL, {
                 method: 'POST',
                 mode: 'no-cors',
-                body: JSON.stringify(payload)
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(rsvpPayload)
             });
+
+            // 2. Upload payment proof (only if attending)
+            if (kehadiran === 'Hadir' && selectedFile) {
+                const base64 = await toBase64(selectedFile);
+                const uploadPayload = {
+                    action: 'upload',
+                    nama,
+                    fileName: `bukti_${nama.replace(/\s+/g, '_')}_${Date.now()}.${selectedFile.name.split('.').pop()}`,
+                    mimeType: selectedFile.type,
+                    data: base64,
+                    folderId: CONFIG.DRIVE_FOLDER_ID
+                };
+
+                await fetch(CONFIG.GOOGLE_SCRIPT_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(uploadPayload)
+                });
+            }
 
             // Success!
             showOverlay(
@@ -247,14 +253,7 @@ function resetUpload() {
 function toBase64(file) {
     return new Promise((resolve, reject) => {
         const r = new FileReader();
-        r.onload = () => {
-            // e.target.result or r.result contains the data URL
-            // Format is "data:image/png;base64,iVBORw0KGgo..."
-            // We only want the part after the comma
-            const result = r.result;
-            const base64String = result.split(',')[1];
-            resolve(base64String);
-        };
+        r.onload = () => resolve(r.result.split(',')[1]);
         r.onerror = reject;
         r.readAsDataURL(file);
     });
@@ -318,48 +317,27 @@ function copyRekening() {
 
 // ============ GOOGLE APPS SCRIPT ============
 /*
- * Paste kode di bawah ini ke Apps Script Editor (Extensions > Apps Script):
+ * Paste di Apps Script Editor (Extensions > Apps Script):
  *
- * Buat SATU sheet saja, misal bernama "Sheet1" atau "RSVP", dengan susunan header:
- * Timestamp | Nama | Kehadiran | Makanan | Pesan | File URL | Status
- *
- * (Pastikan urutan header di excel sama persis dengan yang di atas)
+ * Sheet "RSVP" header: Timestamp | Nama | Kehadiran | Makanan | Pesan
+ * Sheet "Pembayaran" header: Timestamp | Nama | File URL | Status
  *
 
 function doPost(e) {
   var data = JSON.parse(e.postData.contents);
   var ss = SpreadsheetApp.getActiveSpreadsheet();
-  var sheet = ss.getActiveSheet(); // Menggunakan sheet yang sedang aktif
-  
-  if (data.action === 'submit_all') {
-    var fileUrl = '-';
-    var status = '-';
-    
-    // Kalau ada file yang diupload (Hadir)
-    if (data.fileData && data.fileData !== "") {
-      try {
-        var folder = DriveApp.getFolderById(data.folderId);
-        var blob = Utilities.newBlob(Utilities.base64Decode(data.fileData), data.mimeType, data.fileName);
-        var file = folder.createFile(blob);
-        fileUrl = file.getUrl();
-        status = 'Uploaded';
-      } catch(err) {
-        status = 'Error upload';
-      }
-    }
-    
-    // Susun data ke array (Harus sesuai urutan kolom sheet)
-    // 1: Timestamp, 2: Nama, 3: Kehadiran, 4: Makanan, 5: Pesan, 6: File URL, 7: Status
-    sheet.appendRow([
-      data.timestamp, 
-      data.nama, 
-      data.kehadiran, 
-      data.makanan, 
-      data.pesan, 
-      fileUrl, 
-      status
-    ]);
-    
+
+  if (data.action === 'upload') {
+    var folder = DriveApp.getFolderById(data.folderId);
+    var blob = Utilities.newBlob(Utilities.base64Decode(data.data), data.mimeType, data.fileName);
+    var file = folder.createFile(blob);
+    var sheet = ss.getSheetByName('Pembayaran');
+    sheet.appendRow([new Date().toLocaleString('id-ID'), data.nama, file.getUrl(), 'Uploaded']);
+    return ContentService.createTextOutput(JSON.stringify({result:'success',url:file.getUrl()}))
+      .setMimeType(ContentService.MimeType.JSON);
+  } else {
+    var sheet = ss.getSheetByName('RSVP');
+    sheet.appendRow([data.timestamp, data.nama, data.kehadiran, data.makanan, data.pesan]);
     return ContentService.createTextOutput(JSON.stringify({result:'success'}))
       .setMimeType(ContentService.MimeType.JSON);
   }
